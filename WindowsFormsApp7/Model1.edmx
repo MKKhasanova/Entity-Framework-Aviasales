@@ -1,0 +1,350 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище Database1Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Client_ID" />
+          </Key>
+          <Property Name="Client_ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="20" />
+          <Property Name="Address" Type="nchar" MaxLength="50" />
+          <Property Name="Passport" Type="nchar" MaxLength="11" />
+          <Property Name="Year_Of_Birth" Type="date" />
+        </EntityType>
+        <EntityType Name="History">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Client_ID" Type="int" />
+          <Property Name="Flight_number" Type="nchar" MaxLength="10" />
+          <Property Name="Otkuda" Type="nchar" MaxLength="20" />
+          <Property Name="Kuda" Type="nchar" MaxLength="20" />
+          <Property Name="Vremya_otpravlenya" Type="time" Precision="7" />
+        </EntityType>
+        <EntityType Name="Istoriya">
+          <Key>
+            <PropertyRef Name="Istoriya_ID" />
+          </Key>
+          <Property Name="Istoriya_ID" Type="int" Nullable="false" />
+          <Property Name="Flight_number" Type="nchar" MaxLength="10" />
+          <Property Name="Otkuda" Type="nchar" MaxLength="20" />
+          <Property Name="Kuda" Type="nchar" MaxLength="20" />
+          <Property Name="Data" Type="date" />
+          <Property Name="Price" Type="money" />
+        </EntityType>
+        <EntityType Name="Istory">
+          <Key>
+            <PropertyRef Name="Istori_ID" />
+          </Key>
+          <Property Name="Istori_ID" Type="int" Nullable="false" />
+          <Property Name="Client_ID" Type="int" />
+          <Property Name="Flight_number" Type="nchar" MaxLength="10" />
+          <Property Name="Otkuda" Type="nchar" MaxLength="20" />
+          <Property Name="Kuda" Type="nchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Runways">
+          <Key>
+            <PropertyRef Name="Runway_ID" />
+          </Key>
+          <Property Name="Runway_ID" Type="int" Nullable="false" />
+          <Property Name="Runway" Type="nchar" MaxLength="5" />
+        </EntityType>
+        <EntityType Name="Tickets">
+          <Key>
+            <PropertyRef Name="Ticket_Id" />
+          </Key>
+          <Property Name="Ticket_Id" Type="int" Nullable="false" />
+          <Property Name="Flight_number" Type="nchar" MaxLength="10" />
+          <Property Name="Otkuda" Type="nchar" MaxLength="20" />
+          <Property Name="Kuda" Type="nchar" MaxLength="20" />
+          <Property Name="Vremya_otpravlenya" Type="time" Precision="7" />
+          <Property Name="Price" Type="money" />
+          <Property Name="Kol_svobod_biletov" Type="int" />
+          <Property Name="Runway_ID" Type="int" />
+          <Property Name="Transplantation_ID" Type="int" />
+          <Property Name="Otk_Count" Type="nchar" MaxLength="20" />
+          <Property Name="Kud_Count" Type="nchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Transplantations">
+          <Key>
+            <PropertyRef Name="Transplantation_ID" />
+          </Key>
+          <Property Name="Transplantation_ID" Type="int" Nullable="false" />
+          <Property Name="Transplantation" Type="nchar" MaxLength="4" />
+        </EntityType>
+        <Association Name="FK_Tickets_ToTable">
+          <End Role="Transplantations" Type="Self.Transplantations" Multiplicity="0..1" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transplantations">
+              <PropertyRef Name="Transplantation_ID" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="Transplantation_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tickets_ToTable_1">
+          <End Role="Runways" Type="Self.Runways" Multiplicity="0..1" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Runways">
+              <PropertyRef Name="Runway_ID" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="Runway_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище Database1ModelContainer">
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="History" EntityType="Self.History" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Istoriya" EntityType="Self.Istoriya" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Istory" EntityType="Self.Istory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Runways" EntityType="Self.Runways" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tickets" EntityType="Self.Tickets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transplantations" EntityType="Self.Transplantations" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Tickets_ToTable" Association="Self.FK_Tickets_ToTable">
+            <End Role="Transplantations" EntitySet="Transplantations" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tickets_ToTable_1" Association="Self.FK_Tickets_ToTable_1">
+            <End Role="Runways" EntitySet="Runways" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Database1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Client_ID" />
+          </Key>
+          <Property Name="Client_ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="Passport" Type="String" MaxLength="11" FixedLength="true" Unicode="true" />
+          <Property Name="Year_Of_Birth" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="History">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Client_ID" Type="Int32" />
+          <Property Name="Flight_number" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Otkuda" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Kuda" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Vremya_otpravlenya" Type="Time" Precision="7" />
+        </EntityType>
+        <EntityType Name="Runways">
+          <Key>
+            <PropertyRef Name="Runway_ID" />
+          </Key>
+          <Property Name="Runway_ID" Type="Int32" Nullable="false" />
+          <Property Name="Runway" Type="String" MaxLength="5" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Tickets" Relationship="Self.FK_Tickets_ToTable_1" FromRole="Runways" ToRole="Tickets" />
+        </EntityType>
+        <EntityType Name="Tickets">
+          <Key>
+            <PropertyRef Name="Ticket_Id" />
+          </Key>
+          <Property Name="Ticket_Id" Type="Int32" Nullable="false" />
+          <Property Name="Flight_number" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Otkuda" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Kuda" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Vremya_otpravlenya" Type="Time" Precision="7" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Kol_svobod_biletov" Type="Int32" />
+          <Property Name="Runway_ID" Type="Int32" />
+          <Property Name="Transplantation_ID" Type="Int32" />
+          <NavigationProperty Name="Runways" Relationship="Self.FK_Tickets_ToTable_1" FromRole="Tickets" ToRole="Runways" />
+          <NavigationProperty Name="Transplantations" Relationship="Self.FK_Tickets_ToTable" FromRole="Tickets" ToRole="Transplantations" />
+          <Property Name="Otk_Count" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Kud_Count" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Transplantations">
+          <Key>
+            <PropertyRef Name="Transplantation_ID" />
+          </Key>
+          <Property Name="Transplantation_ID" Type="Int32" Nullable="false" />
+          <Property Name="Transplantation" Type="String" MaxLength="4" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Tickets" Relationship="Self.FK_Tickets_ToTable" FromRole="Transplantations" ToRole="Tickets" />
+        </EntityType>
+        <Association Name="FK_Tickets_ToTable_1">
+          <End Role="Runways" Type="Self.Runways" Multiplicity="0..1" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Runways">
+              <PropertyRef Name="Runway_ID" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="Runway_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tickets_ToTable">
+          <End Role="Transplantations" Type="Self.Transplantations" Multiplicity="0..1" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transplantations">
+              <PropertyRef Name="Transplantation_ID" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="Transplantation_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Database1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Client" EntityType="Self.Client" />
+          <EntitySet Name="History" EntityType="Self.History" />
+          <EntitySet Name="Runways" EntityType="Self.Runways" />
+          <EntitySet Name="Tickets" EntityType="Self.Tickets" />
+          <EntitySet Name="Transplantations" EntityType="Self.Transplantations" />
+          <AssociationSet Name="FK_Tickets_ToTable_1" Association="Self.FK_Tickets_ToTable_1">
+            <End Role="Runways" EntitySet="Runways" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tickets_ToTable" Association="Self.FK_Tickets_ToTable">
+            <End Role="Transplantations" EntitySet="Transplantations" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <EntitySet Name="Istorys" EntityType="Database1Model.Istory" />
+          <EntitySet Name="Istoriya" EntityType="Database1Model.Istoriya" />
+        </EntityContainer>
+        <EntityType Name="Istory">
+          <Key>
+            <PropertyRef Name="Istori_ID" />
+          </Key>
+          <Property Name="Istori_ID" Type="Int32" Nullable="false" />
+          <Property Name="Client_ID" Type="Int32" />
+          <Property Name="Flight_number" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Otkuda" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Kuda" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Istoriya">
+          <Key>
+            <PropertyRef Name="Istoriya_ID" />
+          </Key>
+          <Property Name="Istoriya_ID" Type="Int32" Nullable="false" />
+          <Property Name="Flight_number" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Otkuda" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Kuda" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Data" Type="DateTime" Precision="0" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище Database1ModelContainer" CdmEntityContainer="Database1Entities">
+          <EntitySetMapping Name="Client">
+            <EntityTypeMapping TypeName="Database1Model.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="Client_ID" ColumnName="Client_ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Passport" ColumnName="Passport" />
+                <ScalarProperty Name="Year_Of_Birth" ColumnName="Year_Of_Birth" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="History">
+            <EntityTypeMapping TypeName="Database1Model.History">
+              <MappingFragment StoreEntitySet="History">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Client_ID" ColumnName="Client_ID" />
+                <ScalarProperty Name="Flight_number" ColumnName="Flight_number" />
+                <ScalarProperty Name="Otkuda" ColumnName="Otkuda" />
+                <ScalarProperty Name="Kuda" ColumnName="Kuda" />
+                <ScalarProperty Name="Vremya_otpravlenya" ColumnName="Vremya_otpravlenya" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Runways">
+            <EntityTypeMapping TypeName="Database1Model.Runways">
+              <MappingFragment StoreEntitySet="Runways">
+                <ScalarProperty Name="Runway_ID" ColumnName="Runway_ID" />
+                <ScalarProperty Name="Runway" ColumnName="Runway" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tickets">
+            <EntityTypeMapping TypeName="Database1Model.Tickets">
+              <MappingFragment StoreEntitySet="Tickets">
+                <ScalarProperty Name="Kud_Count" ColumnName="Kud_Count" />
+                <ScalarProperty Name="Otk_Count" ColumnName="Otk_Count" />
+                <ScalarProperty Name="Ticket_Id" ColumnName="Ticket_Id" />
+                <ScalarProperty Name="Flight_number" ColumnName="Flight_number" />
+                <ScalarProperty Name="Otkuda" ColumnName="Otkuda" />
+                <ScalarProperty Name="Kuda" ColumnName="Kuda" />
+                <ScalarProperty Name="Vremya_otpravlenya" ColumnName="Vremya_otpravlenya" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Kol_svobod_biletov" ColumnName="Kol_svobod_biletov" />
+                <ScalarProperty Name="Runway_ID" ColumnName="Runway_ID" />
+                <ScalarProperty Name="Transplantation_ID" ColumnName="Transplantation_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transplantations">
+            <EntityTypeMapping TypeName="Database1Model.Transplantations">
+              <MappingFragment StoreEntitySet="Transplantations">
+                <ScalarProperty Name="Transplantation_ID" ColumnName="Transplantation_ID" />
+                <ScalarProperty Name="Transplantation" ColumnName="Transplantation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Istorys">
+            <EntityTypeMapping TypeName="Database1Model.Istory">
+              <MappingFragment StoreEntitySet="Istory">
+                <ScalarProperty Name="Kuda" ColumnName="Kuda" />
+                <ScalarProperty Name="Otkuda" ColumnName="Otkuda" />
+                <ScalarProperty Name="Flight_number" ColumnName="Flight_number" />
+                <ScalarProperty Name="Client_ID" ColumnName="Client_ID" />
+                <ScalarProperty Name="Istori_ID" ColumnName="Istori_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Istoriya">
+            <EntityTypeMapping TypeName="Database1Model.Istoriya">
+              <MappingFragment StoreEntitySet="Istoriya">
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Kuda" ColumnName="Kuda" />
+                <ScalarProperty Name="Otkuda" ColumnName="Otkuda" />
+                <ScalarProperty Name="Flight_number" ColumnName="Flight_number" />
+                <ScalarProperty Name="Istoriya_ID" ColumnName="Istoriya_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
